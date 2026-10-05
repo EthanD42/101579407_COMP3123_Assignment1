@@ -1,6 +1,7 @@
 {
   "name": "comp3123_assignment1",
   "version": "1.0.0",
+  "type": "module",
   "description": "COMP 3123 Assignment 1 Backend REST API",
   "main": "server.js",
   "scripts": {
