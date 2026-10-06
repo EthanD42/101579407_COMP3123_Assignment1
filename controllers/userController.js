@@ -6,10 +6,10 @@ export const usersignup = async (req, res) => {
     try {
         const { username, email, password } = req.body;
 
-        const existingUser = await User.findOne({ email });
+        const existingUser = await User.findOne({ $or: [{ email }, { username }] });
         
         if (existingUser) {
-            return res.status(400).json({ error: 'Email is already in use' });
+            return res.status(409).json({ error: 'Email or username is already in use' });
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -41,18 +41,18 @@ export const usersignup = async (req, res) => {
 
 export const userlogin = async (req, res) => {
     try {
-        const { email, password } = req.body;
+        const { email, username, password } = req.body;
 
-        const user = await User.findOne({ email });
+        const user = await User.findOne({ $or: [{ email }, { username }] });
 
         if (!user) {
-            return res.status(401).json({ error: 'Invalid email or password' });
+            return res.status(401).json({ error: 'Invalid email or username or password' });
         }
 
         const isPasswordValid = await bcrypt.compare(password, user.password);
 
         if (!isPasswordValid) {
-            return res.status(401).json({ error: 'Invalid email or password' });
+            return res.status(401).json({ error: 'Invalid email or username or password' });
         }
 
         const token = jwt.sign(

@@ -28,6 +28,12 @@ const employeeSchema = new mongoose.Schema({
         trim: true
     },
 
+    department: {
+        type: String,
+        required: true,
+        trim: true
+    },
+
     salary: {
         type: Number,
         required: true
@@ -44,7 +50,7 @@ const employeeSchema = new mongoose.Schema({
         required: true
     }
 
-});
+}, { timestamps: true });
 
 const Employee = mongoose.model('Employee', employeeSchema);
 

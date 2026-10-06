@@ -2,7 +2,7 @@ import Employee from '../models/Employee.js';
 
 export const createEmployee = async (req, res) => {
     try {
-        const { first_name, last_name, email, position, salary, date_of_joining } = req.body;
+        const { first_name, last_name, email, position, department,  salary, date_of_joining } = req.body;
 
         const employee = await Employee.create({
             first_name,
@@ -12,6 +12,8 @@ export const createEmployee = async (req, res) => {
             email,
 
             position,
+
+            department,
 
             salary,
 
@@ -78,11 +80,11 @@ export const getEmployeeById = async (req, res) => {
 
 export const updateEmployee = async (req, res) => {
     try {
-        const { first_name, last_name, email, position, salary, date_of_joining } = req.body;
+        const { first_name, last_name, email, position, department,  salary, date_of_joining } = req.body;
 
         const employee = await Employee.findOneAndUpdate(
             { _id: req.params.eid, createdBy: req.user.id },
-            { first_name, last_name, email, position, salary, date_of_joining },
+            { first_name, last_name, email, position, department, salary, date_of_joining },
             { new: true }
         );
 
@@ -123,9 +125,7 @@ export const deleteEmployee = async (req, res) => {
         }
 
 
-        res.status(200).json({
-            message: 'Employee deleted successfully'
-        });
+        res.status(204).send();
 
 
     } catch (error) {
